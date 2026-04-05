@@ -3,3 +3,4 @@ export * from './course-id.dto';
 export * from './course-page.dto';
 export * from './course-update.dto';
 export * from './course-page-v2.dto';
+export * from './course-headers.dto';

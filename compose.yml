@@ -24,6 +24,25 @@ services:
     networks:
       - mysql-network
 
+  redis-server:
+    image: redis:7-alpine
+    container_name: redis-server
+    command: redis-server --requirepass todovale
+    ports:
+      - "6379:6379"
+    networks:
+      - mysql-network
+
+  redis-client:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-client
+    environment:
+      REDIS_HOSTS: local:redis-server:6379:0:todovale
+    ports:
+      - "8081:8081"
+    networks:
+      - mysql-network      
+
 networks:
   mysql-network:
     driver: bridge

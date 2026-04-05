@@ -16,6 +16,12 @@ const schema = z.object({
     synchronize: z.coerce.boolean(),
     logging: z.coerce.boolean(),
   }),
+  redis: z.object({
+    host: z.string().min(3),
+    port: z.coerce.number(),
+    password: z.string().min(8),
+    ttl_idempotency: z.coerce.number(),
+  }),
 });
 
 export const configEnv = () => {
