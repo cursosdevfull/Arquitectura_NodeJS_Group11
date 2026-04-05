@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("database")
+  @Get('database')
   getDatabaseInfo() {
     console.log('Getting database information from AppController...');
     return this.appService.getInfoDatabase();

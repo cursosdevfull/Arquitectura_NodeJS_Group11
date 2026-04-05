@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
 
-const CONFIG_PATH = join(__dirname, '../..', 'config.yml');
+const CONFIG_PATH = join(__dirname, '../../..', 'config.yml');
 
 const schema = z.object({
   port: z.coerce.number(),
@@ -13,6 +13,8 @@ const schema = z.object({
     user: z.string().min(3),
     password: z.string().min(8),
     name: z.string().min(3),
+    synchronize: z.coerce.boolean(),
+    logging: z.coerce.boolean(),
   }),
 });
 

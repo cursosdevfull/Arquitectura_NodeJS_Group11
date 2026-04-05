@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { configEnv } from './core/configuration/config-env';
+import { DatabaseModule } from './core/modules/database/database.module';
+import { CourseModule } from './features/courses/presentation/course.module';
 
 @Module({
   imports: [
@@ -10,6 +12,7 @@ import { configEnv } from './core/configuration/config-env';
       isGlobal: true,
       load: [configEnv],
     }),
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
