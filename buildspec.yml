@@ -1,0 +1,23 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 24
+  pre_build:
+    commands:
+      - echo Logging into AWS CodePipeline
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 282865065290.dkr.ecr.us-east-1.amazonaws.com/arquitectura11
+  build:
+    commands:
+      - echo Build started at `date`
+      - echo Building docker image
+      - cd courses
+      - aws s3 cp s3://arquitectura11/$ENVIRONMENT/config.yml config.yml
+      - docker build -t arquitectura:11 .
+      - docker tag arquitectura:11 282865065290.dkr.ecr.us-east-1.amazonaws.com/arquitectura11
+  post_build:
+    commands:
+      - docker push 282865065290.dkr.ecr.us-east-1.amazonaws.com/arquitectura11
+artifacts:
+  files:
+    - "Dockerrun.aws.json"

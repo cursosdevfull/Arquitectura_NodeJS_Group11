@@ -2,6 +2,7 @@ import { GlobalException } from '@core/exceptions/global.exception';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,12 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new GlobalException());
-  await app.listen(process.env.PORT ?? 3000);
+
+  const configService = app.get(ConfigService);
+  console.log(
+    `Starting server on port ${configService.get<number>('port') ?? 3000}...`,
+  );
+
+  await app.listen(configService.get<number>('port') ?? 3000);
 }
 bootstrap();
