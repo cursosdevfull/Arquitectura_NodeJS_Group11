@@ -3,6 +3,10 @@ import KeyvRedis, { Keyv } from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager/dist/cache.module';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { RoleModule } from '@roles/presentation';
+import { UserModule } from '@users/presentation';
 import { LoggerModule } from 'nestjs-pino';
 import { randomUUID } from 'node:crypto';
 import { AppController } from './app.controller';
@@ -80,10 +84,26 @@ import { CourseModule } from './features/courses/presentation/course.module';
         },
       },
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     CourseModule,
+    RoleModule,
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

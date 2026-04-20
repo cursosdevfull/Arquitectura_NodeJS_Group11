@@ -27,7 +27,13 @@
       ],
       "@courses/*": [
         "./src/features/courses/*"
-      ]
+      ],
+      "@roles/*": [
+        "./src/features/roles/*"
+      ],
+      "@users/*": [
+        "./src/features/users/*"
+      ],
     }
   }
 }
